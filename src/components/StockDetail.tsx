@@ -26,7 +26,6 @@ const StockDetail = ({ code, color, name }: { code: string; color: string; name:
 			},
 		],
 	};
-	console.log(data);
 
 	useEffect(() => {
 		getStockPrices(code).then((res) => setStockPrices(res.data.data.splice(res.data.length - 30, 30)));
@@ -34,13 +33,12 @@ const StockDetail = ({ code, color, name }: { code: string; color: string; name:
 
 	return (
 		<Container onClick={onClick}>
-			<Line data={data} options={options} />
+			<Line data={data} options={options} height={80} />
 		</Container>
 	);
 };
 
 const options = {
-	responsive: true,
 	plugins: {
 		legend: {
 			display: false,
