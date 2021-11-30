@@ -22,7 +22,7 @@ const Container = styled.div`
 	justify-content: flex-start;
 	align-items: center;
 
-	margin-top: 50px;
+	margin-top: 100px;
 	margin-bottom: 100px;
 
 	// ::-webkit-scrollbar {

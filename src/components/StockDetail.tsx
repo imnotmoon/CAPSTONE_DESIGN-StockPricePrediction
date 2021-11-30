@@ -1,20 +1,60 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { getStockData, IStockData } from "../service/networking";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip } from "chart.js";
+import { Line } from "react-chartjs-2";
+import { getStockPrices } from "../service/networking";
 
-const StockDetail = ({ code }: { code: string }) => {
-	const [data, setData] = useState<IStockData | null>(null);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip);
+
+const StockDetail = ({ code, color, name }: { code: string; color: string; name: string }) => {
+	const [stockPrices, setStockPrices] = useState<any>([]);
+
+	const onClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
+	};
+
+	const data = {
+		labels: stockPrices.map((d: any) => d.date.slice(5)),
+		datasets: [
+			{
+				label: name,
+				fill: false,
+				lineTension: 0.3,
+				backgroundColor: color,
+				borderColor: color,
+				data: stockPrices.map((d: any) => d.closingPrice),
+			},
+		],
+	};
+	console.log(data);
 
 	useEffect(() => {
-		getStockData(code).then((res) => setData(res));
+		getStockPrices(code).then((res) => setStockPrices(res.data.data.splice(res.data.length - 30, 30)));
 	}, []);
 
-	return <Container></Container>;
+	return (
+		<Container onClick={onClick}>
+			<Line data={data} options={options} />
+		</Container>
+	);
+};
+
+const options = {
+	responsive: true,
+	plugins: {
+		legend: {
+			display: false,
+		},
+	},
 };
 
 const Container = styled.section`
-	width: 100%;
-	height: 100px;
+	width: 80%;
+	height: 450px;
+	display: flex;
+	flex-direction: column;
+	align-itmes: center;
+	justify-content: center;
 `;
 
 export default StockDetail;
