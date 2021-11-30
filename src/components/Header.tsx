@@ -1,7 +1,32 @@
 import React from "react";
+import styled from "@emotion/styled";
 
 const Header = () => {
-	return <div></div>;
+	return (
+		<Container>
+			<div>Stock Price Prediction</div>
+			<div>CAPSTONE DESIGN</div>
+		</Container>
+	);
 };
+
+const Container = styled.div`
+	height: 70px;
+	width: 100vw;
+	background-color: rgb(52, 144, 255);
+	position: fixed;
+	top: 0px;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	color: white;
+	font-size: 24px;
+	font-weight: 600;
+
+	& > div {
+		padding: 0 50px;
+	}
+`;
 
 export default Header;
