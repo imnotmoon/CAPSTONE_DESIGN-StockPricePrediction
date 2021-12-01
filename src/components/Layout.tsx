@@ -1,20 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 
 import Header from "./Header";
 import List from "./List";
 
+export const SearchContext = React.createContext<any>({});
+
 const Layout = () => {
+	const [search, setSearch] = useState("");
+	console.log(search);
 	const onClickTopButton = () => {
 		document.documentElement.scroll({ top: 0, behavior: "smooth" });
 	};
 
 	return (
-		<Container>
-			<Header />
-			<List />
-			<TopButton onClick={onClickTopButton}>Top</TopButton>
-		</Container>
+		<SearchContext.Provider value={{ search, setSearch }}>
+			<Container>
+				<Header />
+				<List />
+				<TopButton onClick={onClickTopButton}>Top</TopButton>
+			</Container>
+		</SearchContext.Provider>
 	);
 };
 

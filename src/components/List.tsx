@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "@emotion/styled";
 
 import Stock from "./Stock";
 import { STOCKS } from "../static";
+import { SearchContext } from "./Layout";
 
 const List = () => {
+	const { search } = useContext(SearchContext);
 	return (
 		<Container>
-			{STOCKS.map((stock) => {
+			{STOCKS.filter((st) => {
+				const regex = new RegExp(search);
+				if (regex.test(st.name) || regex.test(st.code)) return true;
+				return false;
+			}).map((stock) => {
 				return <Stock data={stock} key={stock.code} />;
 			})}
 		</Container>

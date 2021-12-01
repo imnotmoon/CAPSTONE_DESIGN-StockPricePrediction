@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useContext, useRef } from "react";
 import styled from "@emotion/styled";
 
+import { SearchContext } from "./Layout";
+
 const Header = () => {
+	const { setSearch } = useContext(SearchContext);
+	const throttled = useRef<any>();
+
+	const onChangeInput = (e: React.FormEvent) => {
+		if (throttled.current) {
+			clearTimeout(throttled.current);
+		}
+		throttled.current = setTimeout(() => {
+			setSearch((e.target as HTMLInputElement).value);
+		}, 500);
+	};
+
 	return (
 		<Container>
 			<div>Stock Price Prediction</div>
+			<div>
+				<input type="text" placeholder="search..." onChange={onChangeInput} />
+			</div>
 			<div style={{ fontSize: "1rem" }}>CAPSTONE DESIGN</div>
 		</Container>
 	);
@@ -27,6 +44,20 @@ const Container = styled.div`
 
 	& > div {
 		padding: 0 50px;
+	}
+
+	& input {
+		width: 35vw;
+		height: 35px;
+		background-color: rgb(250, 250, 250);
+		border: 1px solid rgba(240, 240, 240, 0.7);
+		border-radius: 10px;
+		font-size: 20px;
+
+		&:focus {
+			outline: none;
+			padding-left: 20px;
+		}
 	}
 `;
 
